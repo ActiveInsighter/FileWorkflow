@@ -1,27 +1,37 @@
 {
-  "name": "fileworkflow-chatgpt-queue",
-  "version": "0.1.0",
+  "name": "fileworkflow",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
-  "description": "React + Vite userscript and Chrome extension panel for ChatGPT prompt queue automation.",
+  "description": "WXT + React + TypeScript Chrome extension for ChatGPT workflow queue automation.",
   "scripts": {
-    "dev": "vite --host 0.0.0.0",
-    "build": "tsc -b && npm run build:userscript && npm run build:extension",
-    "build:userscript": "vite build --config vite.config.ts && node scripts/build-userscript.mjs",
-    "build:extension": "vite build --config vite.extension.config.ts && node scripts/build-extension.mjs",
-    "preview": "vite preview --host 0.0.0.0",
-    "typecheck": "tsc -b --pretty"
+    "dev": "wxt",
+    "dev:firefox": "wxt -b firefox",
+    "build": "wxt build",
+    "build:firefox": "wxt build -b firefox",
+    "zip": "wxt zip",
+    "compile": "tsc --noEmit",
+    "lint": "eslint . --max-warnings=0",
+    "format": "prettier --write ."
   },
   "dependencies": {
-    "@vitejs/plugin-react": "latest",
-    "vite": "latest",
-    "typescript": "latest",
+    "@wxt-dev/module-react": "latest",
+    "idb": "latest",
     "react": "latest",
     "react-dom": "latest",
-    "esbuild": "latest"
+    "wxt": "latest",
+    "zustand": "latest"
   },
   "devDependencies": {
+    "@eslint/js": "latest",
+    "@types/chrome": "latest",
     "@types/react": "latest",
-    "@types/react-dom": "latest"
+    "@types/react-dom": "latest",
+    "eslint": "latest",
+    "eslint-plugin-react-hooks": "latest",
+    "eslint-plugin-react-refresh": "latest",
+    "prettier": "latest",
+    "typescript": "latest",
+    "typescript-eslint": "latest"
   }
 }
