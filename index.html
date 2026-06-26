@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FileWorkflow ChatGPT Queue Dev</title>
+  </head>
+  <body>
+    <main style="padding: 32px; font-family: system-ui, sans-serif;">
+      <h1>FileWorkflow ChatGPT Queue</h1>
+      <p>本页面只用于 Vite 本地开发预览。真实功能会在 ChatGPT 页面中由油猴入口脚本注入。</p>
+      <form>
+        <textarea id="prompt-textarea" placeholder="模拟 ChatGPT 输入框" style="width: 600px; height: 80px;"></textarea>
+        <button type="submit" data-testid="send-button">Send</button>
+      </form>
+      <section data-message-author-role="assistant" style="margin-top: 24px; border: 1px solid #ddd; padding: 12px;">
+        <div class="markdown">模拟 assistant 消息区</div>
+      </section>
+    </main>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
