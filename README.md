@@ -1,6 +1,6 @@
 # FileWorkflow ChatGPT Queue
 
-这是一个 React + Vite 版本的 ChatGPT 消息队列油猴项目。它把原单文件油猴脚本拆成可维护的前端项目结构，方便后续继续加入 Supabase、任务表、执行日志、云端同步、任务模板等功能。
+这是一个 React + Vite 版本的 ChatGPT 消息队列油猴项目。源码保持模块化开发，构建时会同时生成完整 `.user.js` 油猴脚本和兼容旧 loader 的 IIFE 包。
 
 ## 当前功能
 
@@ -30,6 +30,8 @@ src/
 ├─ services/supabase/      # Supabase REST 客户端预留
 ├─ shared/                 # 常量、类型、storage、timer、format
 └─ styles/                 # 样式字符串注入
+scripts/
+└─ build-userscript.mjs    # 给 Vite 产物补完整油猴头部，生成 .user.js
 ```
 
 ## 安装依赖
@@ -53,10 +55,19 @@ npm run build
 构建结果：
 
 ```text
+dist/fileworkflow-chatgpt-queue.user.js
 dist/fileworkflow-chatgpt-queue.iife.js
 ```
 
-这个文件是给油猴 `@require` 引用的 IIFE 包，React 和业务逻辑都会被打进同一个 JS 文件。
+推荐使用：
+
+```text
+dist/fileworkflow-chatgpt-queue.user.js
+```
+
+这个文件是完整油猴脚本，自带 `// ==UserScript==` 头部和全部业务代码，可以整段复制到 Tampermonkey。
+
+`fileworkflow-chatgpt-queue.iife.js` 只用于兼容旧的 `@require` loader。
 
 ## CDN 发布逻辑
 
@@ -69,20 +80,24 @@ npm install
 ↓
 npm run build
 ↓
-把 dist/fileworkflow-chatgpt-queue.iife.js 推送到 cdn 分支
+把 dist/fileworkflow-chatgpt-queue.user.js 和 iife 包推送到 cdn 分支
 ↓
 jsDelivr 从 cdn 分支提供 CDN 文件
 ```
 
-默认 CDN 地址：
+推荐 CDN 地址：
+
+```text
+https://cdn.jsdelivr.net/gh/ActiveInsighter/FileWorkflow@cdn/fileworkflow-chatgpt-queue.user.js
+```
+
+兼容旧 loader 的 IIFE 地址：
 
 ```text
 https://cdn.jsdelivr.net/gh/ActiveInsighter/FileWorkflow@cdn/fileworkflow-chatgpt-queue.iife.js
 ```
 
-如果仓库 owner 不是 `ActiveInsighter`，修改 `docs/tampermonkey-loader.md` 和 workflow 里的示例 URL 即可。
-
-## 油猴入口脚本
+## 油猴完整脚本
 
 见：
 
