@@ -1,0 +1,49 @@
+name: Build and Publish CDN Bundle
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fileworkflow-cdn-publish
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build userscript bundle
+        run: npm run build
+
+      - name: Publish to cdn branch
+        run: |
+          mkdir -p /tmp/fileworkflow-cdn
+          cp dist/fileworkflow-chatgpt-queue.iife.js /tmp/fileworkflow-cdn/fileworkflow-chatgpt-queue.iife.js
+          cp dist/fileworkflow-chatgpt-queue.iife.js.map /tmp/fileworkflow-cdn/fileworkflow-chatgpt-queue.iife.js.map
+          cd /tmp/fileworkflow-cdn
+          git init
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b cdn
+          git add .
+          git commit -m "chore: publish userscript cdn bundle"
+          git remote add origin "https://github.com/${{ github.repository }}.git"
+          git push --force origin cdn
