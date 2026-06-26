@@ -18,14 +18,15 @@ jobs:
 
     steps:
       - name: Checkout source
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: 24
+          package-manager-cache: false
 
       - name: Install dependencies
         run: npm install
@@ -35,6 +36,7 @@ jobs:
 
       - name: Prepare CDN files
         run: |
+          set -eux
           mkdir -p /tmp/fileworkflow-cdn
           cp dist/fileworkflow-chatgpt-queue.iife.js /tmp/fileworkflow-cdn/fileworkflow-chatgpt-queue.iife.js
           cp dist/fileworkflow-chatgpt-queue.iife.js.map /tmp/fileworkflow-cdn/fileworkflow-chatgpt-queue.iife.js.map
@@ -50,11 +52,12 @@ jobs:
 
       - name: Publish to cdn branch
         run: |
+          set -eux
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git checkout --orphan cdn
           git rm -rf . || true
           cp -R /tmp/fileworkflow-cdn/. .
-          git add .
+          git add -A
           git commit -m "chore: publish userscript cdn bundle"
-          git push --force origin cdn
+          git push --force origin HEAD:cdn
