@@ -16,6 +16,11 @@ export default defineConfig({
       name: 'FileWorkflowChatGPTQueue',
       formats: ['iife'],
       fileName: () => 'fileworkflow-chatgpt-queue.iife.js'
+    },
+    rollupOptions: {
+      output: {
+        banner: 'var process = globalThis.process || { env: { NODE_ENV: "production" } };'
+      }
     }
   }
 });
