@@ -13,11 +13,6 @@ export default defineConfig({
       name: 'FileWorkflowChatGPTQueue',
       formats: ['iife'],
       fileName: () => 'fileworkflow-chatgpt-queue.iife.js'
-    },
-    rollupOptions: {
-      output: {
-        inlineDynamicImports: true
-      }
     }
   }
 });
