@@ -7,12 +7,12 @@ export default defineConfig({
     'process.env.NODE_ENV': JSON.stringify('production')
   },
   build: {
-    outDir: 'dist',
+    outDir: 'dist/userscript',
     emptyOutDir: true,
     sourcemap: false,
     minify: false,
     lib: {
-      entry: 'src/main.tsx',
+      entry: 'src/entry-userscript.tsx',
       name: 'FileWorkflowChatGPTQueue',
       formats: ['iife'],
       fileName: () => 'fileworkflow-chatgpt-queue.iife.js'
