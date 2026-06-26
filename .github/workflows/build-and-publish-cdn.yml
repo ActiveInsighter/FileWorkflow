@@ -40,16 +40,23 @@ jobs:
           mkdir -p /tmp/fileworkflow-cdn
           cp dist/fileworkflow-chatgpt-queue.user.js /tmp/fileworkflow-cdn/fileworkflow-chatgpt-queue.user.js
           cp dist/fileworkflow-chatgpt-queue.iife.js /tmp/fileworkflow-cdn/fileworkflow-chatgpt-queue.iife.js
-          cp dist/fileworkflow-chatgpt-queue.iife.js.map /tmp/fileworkflow-cdn/fileworkflow-chatgpt-queue.iife.js.map
-          cat > /tmp/fileworkflow-cdn/README.md <<'MARKDOWN'
+          cd /tmp/fileworkflow-cdn
+          zip -9 fileworkflow-chatgpt-queue.user.zip fileworkflow-chatgpt-queue.user.js
+          cat > README.md <<'MARKDOWN'
           # FileWorkflow CDN Build
 
           This branch is generated automatically by GitHub Actions.
 
-          Recommended full userscript, copy this file directly into Tampermonkey:
+          Recommended full userscript:
 
           ```text
           https://cdn.jsdelivr.net/gh/ActiveInsighter/FileWorkflow@cdn/fileworkflow-chatgpt-queue.user.js
+          ```
+
+          Windows-friendly zip download:
+
+          ```text
+          https://cdn.jsdelivr.net/gh/ActiveInsighter/FileWorkflow@cdn/fileworkflow-chatgpt-queue.user.zip
           ```
 
           Legacy IIFE bundle for old loader scripts:
