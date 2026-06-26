@@ -3,10 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "React + Vite userscript panel for ChatGPT prompt queue automation.",
+  "description": "React + Vite userscript and Chrome extension panel for ChatGPT prompt queue automation.",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
-    "build": "tsc -b && vite build && node scripts/build-userscript.mjs",
+    "build": "tsc -b && npm run build:userscript && npm run build:extension",
+    "build:userscript": "vite build --config vite.config.ts && node scripts/build-userscript.mjs",
+    "build:extension": "vite build --config vite.extension.config.ts && node scripts/build-extension.mjs",
     "preview": "vite preview --host 0.0.0.0",
     "typecheck": "tsc -b --pretty"
   },
