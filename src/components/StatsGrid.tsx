@@ -1,17 +1,26 @@
 interface StatsGridProps {
-  total: number;
-  current: number;
-  elapsedText: string;
-  shortStatus: string;
+  total: string;
+  current: string;
+  elapsed: string;
+  status: string;
 }
 
-export function StatsGrid({ total, current, elapsedText, shortStatus }: StatsGridProps) {
+export function StatsGrid(props: StatsGridProps) {
   return (
-    <div className="fw-pq-stats" role="status" aria-live="polite">
-      <div className="fw-pq-stat"><span>总数</span><b>{total}</b></div>
-      <div className="fw-pq-stat"><span>当前</span><b>{current}/{total}</b></div>
-      <div className="fw-pq-stat"><span>用时</span><b>{elapsedText}</b></div>
-      <div className="fw-pq-stat"><span>状态</span><b>{shortStatus}</b></div>
+    <div className="fw-stats">
+      <Stat label="总数" value={props.total} />
+      <Stat label="当前" value={props.current} />
+      <Stat label="用时" value={props.elapsed} />
+      <Stat label="状态" value={props.status} />
+    </div>
+  );
+}
+
+function Stat({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="fw-stat">
+      <span>{label}</span>
+      <strong title={value}>{value}</strong>
     </div>
   );
 }
