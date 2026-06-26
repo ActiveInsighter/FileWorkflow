@@ -33,17 +33,28 @@ jobs:
       - name: Build userscript bundle
         run: npm run build
 
-      - name: Publish to cdn branch
+      - name: Prepare CDN files
         run: |
           mkdir -p /tmp/fileworkflow-cdn
           cp dist/fileworkflow-chatgpt-queue.iife.js /tmp/fileworkflow-cdn/fileworkflow-chatgpt-queue.iife.js
           cp dist/fileworkflow-chatgpt-queue.iife.js.map /tmp/fileworkflow-cdn/fileworkflow-chatgpt-queue.iife.js.map
-          cd /tmp/fileworkflow-cdn
-          git init
+          cat > /tmp/fileworkflow-cdn/README.md <<'MARKDOWN'
+          # FileWorkflow CDN Build
+
+          This branch is generated automatically by GitHub Actions.
+
+          ```text
+          https://cdn.jsdelivr.net/gh/ActiveInsighter/FileWorkflow@cdn/fileworkflow-chatgpt-queue.iife.js
+          ```
+          MARKDOWN
+
+      - name: Publish to cdn branch
+        run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git checkout -b cdn
+          git checkout --orphan cdn
+          git rm -rf . || true
+          cp -R /tmp/fileworkflow-cdn/. .
           git add .
           git commit -m "chore: publish userscript cdn bundle"
-          git remote add origin "https://github.com/${{ github.repository }}.git"
           git push --force origin cdn
