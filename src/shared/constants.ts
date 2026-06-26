@@ -1,29 +1,29 @@
-export const APP_ROOT_ID = 'fileworkflow-chatgpt-queue-root';
-export const PANEL_ID = 'fileworkflow-chatgpt-queue-panel';
-export const STYLE_ID = 'fileworkflow-chatgpt-queue-style';
+import type { ExtensionSettings } from '../types/settings';
 
-export const EDGE_GAP = 8;
-export const END_SIGNAL_MAX_CHARS = 64;
-
-export const RANDOM_WAIT = {
-  minMinutes: 1,
-  maxMinutes: 10
-};
+export const CHATGPT_HOME_URL = 'https://chatgpt.com/';
+export const ROOT_HOST_ID = 'fileworkflow-shadow-host';
 
 export const STORAGE_KEYS = {
-  promptText: 'fileworkflow.promptQueue.promptText.v1',
-  panelPosition: 'fileworkflow.promptQueue.panelPosition.v1',
-  collapsed: 'fileworkflow.promptQueue.collapsed.v1',
-  autoScroll: 'fileworkflow.promptQueue.autoScroll.v1',
-  randomWait: 'fileworkflow.promptQueue.randomWait.v1',
-  runState: 'fileworkflow.promptQueue.runState.v1'
-};
+  queueText: 'fw.queue.text',
+  runState: 'fw.queue.runState',
+  settings: 'fw.settings'
+} as const;
 
-export const LEGACY_PROMPT_KEYS = [
-  'chatgpt-prompt-queue.promptText.v17',
-  'chatgpt-prompt-queue.promptText.v16',
-  'chatgpt-prompt-queue.promptText.v13',
-  'chatgpt-prompt-queue.promptText.v12',
-  'chatgpt-prompt-queue.promptText.v11',
-  'chatgpt-prompt-queue.promptText.v10'
-];
+export const MESSAGE_TYPES = {
+  OPEN_CHATGPT: 'FW_OPEN_CHATGPT',
+  TOGGLE_PANEL: 'FW_TOGGLE_PANEL'
+} as const;
+
+export const DEFAULT_QUEUE_TEXT = `现在总结数据结构第1章
+继续总结
+继续总结`;
+
+export const DEFAULT_SETTINGS: ExtensionSettings = {
+  autoScroll: true,
+  randomWait: false,
+  randomWaitMinMinutes: 2,
+  randomWaitMaxMinutes: 6,
+  supabaseEnabled: false,
+  supabaseUrl: '',
+  supabaseAnonKey: ''
+};
