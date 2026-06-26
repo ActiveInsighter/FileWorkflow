@@ -1,4 +1,4 @@
-name: Build and Publish CDN Bundle
+name: Build and Publish Bundles
 
 on:
   push:
@@ -9,7 +9,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: fileworkflow-cdn-publish
+  group: fileworkflow-bundle-publish
   cancel-in-progress: true
 
 jobs:
@@ -31,15 +31,16 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build userscript bundle
+      - name: Build userscript and extension
         run: npm run build
 
       - name: Prepare CDN files
         run: |
           set -eux
           mkdir -p /tmp/fileworkflow-cdn
-          cp dist/fileworkflow-chatgpt-queue.user.js /tmp/fileworkflow-cdn/fileworkflow-chatgpt-queue.user.js
-          cp dist/fileworkflow-chatgpt-queue.iife.js /tmp/fileworkflow-cdn/fileworkflow-chatgpt-queue.iife.js
+          cp dist/userscript/fileworkflow-chatgpt-queue.user.js /tmp/fileworkflow-cdn/fileworkflow-chatgpt-queue.user.js
+          cp dist/userscript/fileworkflow-chatgpt-queue.iife.js /tmp/fileworkflow-cdn/fileworkflow-chatgpt-queue.iife.js
+          cp dist/fileworkflow-chrome-extension.zip /tmp/fileworkflow-cdn/fileworkflow-chrome-extension.zip
           cd /tmp/fileworkflow-cdn
           zip -9 fileworkflow-chatgpt-queue.user.zip fileworkflow-chatgpt-queue.user.js
           cat > README.md <<'MARKDOWN'
@@ -47,13 +48,19 @@ jobs:
 
           This branch is generated automatically by GitHub Actions.
 
-          Recommended full userscript:
+          Chrome extension zip:
+
+          ```text
+          https://cdn.jsdelivr.net/gh/ActiveInsighter/FileWorkflow@cdn/fileworkflow-chrome-extension.zip
+          ```
+
+          Full userscript:
 
           ```text
           https://cdn.jsdelivr.net/gh/ActiveInsighter/FileWorkflow@cdn/fileworkflow-chatgpt-queue.user.js
           ```
 
-          Windows-friendly zip download:
+          Windows-friendly userscript zip:
 
           ```text
           https://cdn.jsdelivr.net/gh/ActiveInsighter/FileWorkflow@cdn/fileworkflow-chatgpt-queue.user.zip
@@ -75,5 +82,5 @@ jobs:
           git rm -rf . || true
           cp -R /tmp/fileworkflow-cdn/. .
           git add -A
-          git commit -m "chore: publish userscript cdn bundle"
+          git commit -m "chore: publish userscript and extension bundles"
           git push --force origin HEAD:cdn
