@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FileWorkflow</title>
+    <style>
+      body {
+        width: 280px;
+        margin: 0;
+        padding: 14px;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        color: #111827;
+        background: #f8fafc;
+      }
+      h1 {
+        margin: 0 0 8px;
+        font-size: 16px;
+      }
+      p {
+        margin: 8px 0;
+        font-size: 13px;
+        line-height: 1.5;
+      }
+      button {
+        width: 100%;
+        margin-top: 10px;
+        padding: 8px 10px;
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        background: white;
+        cursor: pointer;
+      }
+      .muted {
+        color: #6b7280;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>FileWorkflow</h1>
+    <p>打开 ChatGPT 页面后，扩展会自动注入消息队列面板。</p>
+    <p class="muted">支持 chatgpt.com 和 chat.openai.com。</p>
+    <button id="open-chatgpt">打开 ChatGPT</button>
+    <button id="open-options">扩展设置</button>
+    <script src="popup.js"></script>
+  </body>
+</html>
