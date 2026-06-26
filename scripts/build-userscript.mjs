@@ -1,7 +1,7 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 
-const distDir = resolve('dist');
+const distDir = resolve('dist/userscript');
 const iifePath = resolve(distDir, 'fileworkflow-chatgpt-queue.iife.js');
 const userscriptPath = resolve(distDir, 'fileworkflow-chatgpt-queue.user.js');
 
