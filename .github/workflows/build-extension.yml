@@ -1,0 +1,57 @@
+name: Build Chrome Extension
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build:
+    name: Build WXT Chrome MV3 extension
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build extension
+        run: npm run build
+
+      - name: Pack Chrome MV3 folder
+        run: |
+          test -d .output/chrome-mv3
+          mkdir -p artifacts
+          (cd .output/chrome-mv3 && zip -r ../../artifacts/fileworkflow-chrome-mv3.zip .)
+
+      - name: Upload zipped extension artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: fileworkflow-chrome-extension
+          path: artifacts/fileworkflow-chrome-mv3.zip
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Upload unpacked extension folder artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: fileworkflow-chrome-mv3-folder
+          path: .output/chrome-mv3
+          if-no-files-found: error
+          retention-days: 30
