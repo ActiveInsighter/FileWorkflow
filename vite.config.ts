@@ -9,8 +9,8 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     emptyOutDir: true,
-    sourcemap: true,
-    minify: 'esbuild',
+    sourcemap: false,
+    minify: false,
     lib: {
       entry: 'src/main.tsx',
       name: 'FileWorkflowChatGPTQueue',
