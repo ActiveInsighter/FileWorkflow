@@ -229,11 +229,12 @@ export function useQueueController() {
   }, [patchRunner, settings.autoScroll]);
 
   const checkRemoteDirective = useCallback(async (): Promise<RemoteDirective> => {
-    const { eventId, currentActivityId } = runnerRef.current;
+    const { eventId, currentActivityId, waitingUntil } = runnerRef.current;
     if (!eventId) return 'continue';
 
     const repository = repositoryRef.current;
     const eventStatus = normalizeStatus(await repository.getEventStatus(eventId));
+    if (eventStatus === 'waiting' && waitingUntil > Date.now()) return 'continue';
     if (isPauseStatus(eventStatus)) return 'pause';
     if (isEventTerminalStatus(eventStatus)) return 'event-finished';
 
@@ -396,8 +397,8 @@ export function useQueueController() {
         if (settings.randomWait && runnerRef.current.index < runnerRef.current.items.length && !runnerRef.current.pauseRequested && !runnerRef.current.endRequested) {
           const minutes = randomInt(settings.randomWaitMinMinutes || RANDOM_WAIT.minMinutes, settings.randomWaitMaxMinutes || RANDOM_WAIT.maxMinutes);
           const waitMs = minutes * 60 * 1000;
-          await repositoryRef.current.updateEventStatus(eventId, 'waiting', `随机等待 ${minutes} 分钟`);
           patchRunner({ currentWaitMinutes: minutes, waitingUntil: Date.now() + waitMs, status: `随机等待 ${minutes} 分钟后继续` });
+          await repositoryRef.current.updateEventStatus(eventId, 'waiting', `随机等待 ${minutes} 分钟`);
           const waitDirective = await waitWithStatusPolling(waitMs, checkRemoteDirective);
           patchRunner({ waitingUntil: 0, currentWaitMinutes: 0 });
           if (waitDirective === 'pause') {
