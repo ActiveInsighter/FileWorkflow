@@ -6,5 +6,16 @@
     "moduleResolution": "Bundler",
     "noEmit": true
   },
-  "include": ["entrypoints", "src", "wxt.config.ts"]
+  "include": [
+    "entrypoints",
+    "src/app",
+    "src/content-ui",
+    "src/features",
+    "src/hooks",
+    "src/services",
+    "src/shared",
+    "src/types",
+    "wxt.config.ts"
+  ],
+  "exclude": ["src/components", "src/stores"]
 }
